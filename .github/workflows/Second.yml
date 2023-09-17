@@ -1,5 +1,21 @@
 name: Second Workflow
-on: push
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - master # main
+      - 'dev-*' # dev-new dev-this-is-new
+      - 'feat/**' # feat/new feat/new/button
+  workflow_dispatch:
+  push:
+    branches:
+      - master # main
+      - 'dev-*' # dev-new dev-this-is-new
+      - 'feat/**' # feat/new feat/new/button
+      # developer-1
+    paths-ignore:
+      - '.github/workflows/*'
 jobs:
   Build-Job:
     runs-on: ubuntu-latest
