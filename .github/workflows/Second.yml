@@ -38,7 +38,7 @@ jobs:
       - name: Build Project
         run: mvn -B package --file pom.xml -DskipTests
       - name: creating staging folder
-        run: mkdir staging && cp target/*jar-with-dependencies.jar staging
+        run: mkdir staging && cp target/*.jar staging
       - name: publish the artifact
         uses: actions/upload-artifact@v1
         with:
