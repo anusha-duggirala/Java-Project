@@ -1,0 +1,31 @@
+name: Second Workflow
+on: push
+jobs:
+  Build-Job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with: 
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Cache the Maven packages to speed up build
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build Project
+        run: mvn -B package --file pom.xml -DskipTests
+      - name: creating staging folder
+        run: mkdir staging && cp target/*.jar staging
+      - name: publish the artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Package
+          path: staging
+  
+      
+  
