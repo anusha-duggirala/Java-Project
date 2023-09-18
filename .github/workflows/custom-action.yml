@@ -7,8 +7,12 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Addition
+        id: sum
         uses: ./.github/actions
         with: 
           input1: 10
           input2: 20
+      - name: Display output
+        run: echo "Sum is ${{ steps.sum.outputs.output }}"
+          
           
