@@ -39,7 +39,7 @@ jobs:
     steps:
       - env:
           env1: ${{ needs.Build-Job.outputs.file-name }}
-        run: echo "env1"
+        run: echo "$env1"
   
       
   
