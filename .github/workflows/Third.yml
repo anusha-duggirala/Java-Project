@@ -1,5 +1,5 @@
 name: Third Workflow
-on: push
+on: workflow_dispatch
 jobs:
   Build-Job:
     runs-on: ubuntu-latest

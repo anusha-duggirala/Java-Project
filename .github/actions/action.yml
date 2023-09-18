@@ -1,4 +1,4 @@
-name: Addition
+name: Anusha action
 description: 'Addition of two numbers'
 inputs:
   input1:
