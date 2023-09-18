@@ -1,0 +1,12 @@
+name: Custom Action Workflow
+on: workflow_dispatch
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Addition
+        uses: ./.github/actions/anusha-action
+        with: 
+          input1: 10
+          input2: 20
+          
