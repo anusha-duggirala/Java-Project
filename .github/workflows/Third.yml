@@ -26,6 +26,8 @@ jobs:
       - name: publish Jar file name
         id: publish
         run: find staging/*.jar -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+      - name: echo file name
+        run: echo ${{ outputs.file-name }}
       - name: publish the artifact
         uses: actions/upload-artifact@v1
         with:
