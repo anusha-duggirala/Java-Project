@@ -29,7 +29,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build Project
-        if: steps.cache.outputs.cache-hit != 'true'
         run: mvn -B package --file pom.xml -DskipTests
       - name: creating staging folder
         run: mkdir staging && cp target/*.jar staging
