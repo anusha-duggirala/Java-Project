@@ -1,0 +1,48 @@
+name: Using Reusable Workflow
+on: push
+jobs:
+  Build-Job:
+    runs-on: ubuntu-latest
+    outputs:
+      file-name: ${{ steps.publish.script-file }}
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with: 
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Cache the Maven packages to speed up build
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build Project
+        run: mvn -B package --file pom.xml -DskipTests
+      - name: creating staging folder
+        run: mkdir staging && cp target/*.jar staging
+      - name: publish Jar file name
+        id: publish
+        run: find staging/*.jar -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+      - name: echo file name
+        run: echo ${{ steps.publish.outputs.script-file }}
+      - name: publish the artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Package
+          path: staging
+  deploy:
+    needs: Build-Job
+    uses: ./.github/workflows/re-use.yml
+    with:
+      artifact-name: Package
+    # secrets:
+      # some-secret: ${{ secrets.some-secret }}
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy output
+        run: echo "${{ needs.deploy.outputs.result }}"
