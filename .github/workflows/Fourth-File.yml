@@ -22,12 +22,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Cache the Maven packages to speed up build
+        id: cache
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build Project
+        if: steps.cache.outputs.cache-hit != 'true'
         run: mvn -B package --file pom.xml -DskipTests
       - name: creating staging folder
         run: mkdir staging && cp target/*.jar staging
@@ -51,6 +53,15 @@ jobs:
       - env:
           env1: ${{ needs.Build-Job.outputs.file-name }}
         run: echo "$env1"
+  report:
+    needs: [Build-Job, publish-filename]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: | 
+          echo "Something went wrong"
+          echo "${{ toJSON(github) }}"
   
       
   
