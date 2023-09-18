@@ -37,8 +37,10 @@ jobs:
     needs: Build-Job
     runs-on: ubuntu-latest
     steps:
+      - env:
+          env1: ${{ needs.Build-Job.outputs.file-name }}
       - name: Publish Jar file name
-        run: echo ${{ needs.Build-Job.outputs.file-name }}
+        run: echo "env1"
   
       
   
