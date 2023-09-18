@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish Jar file name
-        run: echo "${{ needs.Build-Job.outputs.file-name }}
+        run: echo "${{ needs.Build-Job.outputs.file-name }}"
   
       
   
