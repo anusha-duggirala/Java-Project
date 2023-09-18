@@ -1,0 +1,15 @@
+name: Addition
+description: 'Addition of two numbers'
+inputs:
+  input1:
+    description: First number
+    required: true
+  input2:
+    description: Second number
+    required: true
+outputs:
+  output: 
+    description: 'After adding two numbers'
+runs:
+  using: 'node16'
+  main: 'main.js'
