@@ -1,5 +1,5 @@
 name: Using Reusable Workflow
-on: push
+on: workflow-dispatch
 jobs:
   Build-Job:
     runs-on: ubuntu-latest
